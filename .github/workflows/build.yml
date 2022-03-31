@@ -13,6 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
       - name: Build docker image
         run: |
           docker build -t danackerson/hsm-planb.de:vg$GITHUB_RUN_ID .
