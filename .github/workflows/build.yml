@@ -43,14 +43,14 @@ jobs:
           chmod 400 ~/.ssh/id_rsa
 
           ssh -o StrictHostKeyChecking=no root@ackerson.de "\
-            docker rm -f homepage || true && \
+            docker rm -f hsm-planb || true && \
             docker run -d --restart=always \
               -e GITHUB_RUN_ID=$GITHUB_RUN_ID \
               --label='traefik.enable=true' \
-              --label='traefik.http.routers.homepage.middlewares=http-ratelimit@file,secHeaders@file' \
-              --label='traefik.http.routers.homepage.tls.certResolver=letsencrypt' \
-              --label='traefik.http.routers.homepage.tls.domains=hausmeisterservice-planb.de' \
-              --label='traefik.http.routers.homepage.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
+              --label='traefik.http.routers.hsm-planb.middlewares=http-ratelimit@file,secHeaders@file' \
+              --label='traefik.http.routers.hsm-planb.tls.certResolver=letsencrypt' \
+              --label='traefik.http.routers.hsm-planb.tls.domains=hausmeisterservice-planb.de' \
+              --label='traefik.http.routers.hsm-planb.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
               --name hsm-planb danackerson/hsm-planb.de:vg$GITHUB_RUN_ID"
 
           rm -Rf ~/.ssh ~/.docker/config.json
