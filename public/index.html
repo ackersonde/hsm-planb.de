@@ -1,75 +1,34 @@
 <!DOCTYPE html>
-<html lang="de">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
-        <link rel="manifest" id="static_manifest" href="/manifest.json">
-        <title></title>
-        <link href="/css/chunk-03c958ca.6ac676eb.css" rel="prefetch">
-        <link href="/css/chunk-0b7827dd.cf4e34a0.css" rel="prefetch">
-        <link href="/css/chunk-0fc02687.c309eb75.css" rel="prefetch">
-        <link href="/css/chunk-12770743.cab59e1c.css" rel="prefetch">
-        <link href="/css/chunk-174e56ee.377c0b1f.css" rel="prefetch">
-        <link href="/css/chunk-2bfa586a.116bb928.css" rel="prefetch">
-        <link href="/css/chunk-2c162a94.70f52c3c.css" rel="prefetch">
-        <link href="/css/chunk-336a5daf.212d48bb.css" rel="prefetch">
-        <link href="/css/chunk-3a4572fc.f80a85ca.css" rel="prefetch">
-        <link href="/css/chunk-547e0232.cc628b86.css" rel="prefetch">
-        <link href="/css/chunk-58416f4f.ca4d3a3d.css" rel="prefetch">
-        <link href="/css/chunk-599cdcd7.9630ef27.css" rel="prefetch">
-        <link href="/css/chunk-7378afc2.aa316f16.css" rel="prefetch">
-        <link href="/css/chunk-96daa546.9ffe43aa.css" rel="prefetch">
-        <link href="/css/chunk-b4b555ea.97834fe7.css" rel="prefetch">
-        <link href="/css/chunk-e14bb096.9161b952.css" rel="prefetch">
-        <link href="/js/chunk-03c958ca.66eba7a8.js" rel="prefetch">
-        <link href="/js/chunk-0b7827dd.cd065686.js" rel="prefetch">
-        <link href="/js/chunk-0fc02687.0bb920e5.js" rel="prefetch">
-        <link href="/js/chunk-12770743.df22fb0f.js" rel="prefetch">
-        <link href="/js/chunk-174e56ee.2c00c4fe.js" rel="prefetch">
-        <link href="/js/chunk-2bfa586a.7219b662.js" rel="prefetch">
-        <link href="/js/chunk-2c162a94.d9de5cde.js" rel="prefetch">
-        <link href="/js/chunk-2d0c7cc6.e63bbf88.js" rel="prefetch">
-        <link href="/js/chunk-336a5daf.ee57d81c.js" rel="prefetch">
-        <link href="/js/chunk-3a4572fc.1fa8c229.js" rel="prefetch">
-        <link href="/js/chunk-547e0232.3de7e7b2.js" rel="prefetch">
-        <link href="/js/chunk-58416f4f.1b8341ab.js" rel="prefetch">
-        <link href="/js/chunk-599cdcd7.66f45c5a.js" rel="prefetch">
-        <link href="/js/chunk-7378afc2.6d9bf165.js" rel="prefetch">
-        <link href="/js/chunk-96daa546.6164f439.js" rel="prefetch">
-        <link href="/js/chunk-b4b555ea.e169dab7.js" rel="prefetch">
-        <link href="/js/chunk-e14bb096.3922663f.js" rel="prefetch">
-        <link href="/css/app.8e6e963d.css" rel="preload" as="style">
-        <link href="/css/chunk-vendors.c2a1bbbd.css" rel="preload" as="style">
-        <link href="/js/app.a04c078d.js" rel="modulepreload" as="script">
-        <link href="/js/chunk-vendors.27852fad.js" rel="modulepreload" as="script">
-        <link href="/css/chunk-vendors.c2a1bbbd.css" rel="stylesheet">
-        <link href="/css/app.8e6e963d.css" rel="stylesheet">
-    </head>
-    <body>
-        <div id="app"></div>
-        <script type="module" src="/js/chunk-vendors.27852fad.js"></script>
-        <script type="module" src="/js/app.a04c078d.js"></script>
-        <script>
-            !function() {
-                var e = document, t = e.createElement("script");
-                if (!("noModule"in t) && "onbeforeload"in t) {
-                    var n = !1;
-                    e.addEventListener("beforeload", function(e) {
-                        if (e.target === t)
-                            n = !0;
-                        else if (!e.target.hasAttribute("nomodule") || !n)
-                            return;
-                        e.preventDefault()
-                    }, !0),
-                    t.type = "module",
-                    t.src = ".",
-                    e.head.appendChild(t),
-                    t.remove()
-                }
-            }();
-        </script>
-        <script src="/js/chunk-vendors-legacy.95e36ff9.js" nomodule></script>
-        <script src="/js/app-legacy.5f9ba512.js" nomodule></script>
-    </body>
+<html>
+  <head>
+    <title>Plan B Hausmeisterservice - Matthias Fonte | Oberhatkofen</title>
+    <style>
+      html, body{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .videoWrapper {
+        padding-bottom: 56.25%; /* 16:9 */
+        overflow: hidden;
+      }
+      .videoWrapper iframe {
+        overflow-y: scroll;
+        padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+        box-sizing: content-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="videoWrapper">
+        <iframe src="//planb-hausmeisterservice.regionalinfo.app" allowfullscreen></iframe>
+    </div>
+  </body>
 </html>
