@@ -13,8 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN: ${{ secrets.ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN }}
-      ORG_DIGITALOCEAN_FIREWALL: ${{ secrets.ORG_DIGITALOCEAN_FIREWALL }}
+      CTX_DIGITALOCEAN_DROPLET_PROXY_TOKEN: ${{ secrets.ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN }}
+      CTX_DIGITALOCEAN_FIREWALL: ${{ secrets.ORG_DIGITALOCEAN_FIREWALL }}
     steps:
       - uses: actions/checkout@v2
       - name: Build docker image
