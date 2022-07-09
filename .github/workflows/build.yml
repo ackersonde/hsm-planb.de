@@ -13,15 +13,14 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      CTX_DIGITALOCEAN_DROPLET_PROXY_TOKEN: ${{ secrets.CTX_DIGITALOCEAN_DROPLET_PROXY_TOKEN }}
-      CTX_DIGITALOCEAN_FIREWALL: ${{ secrets.CTX_DIGITALOCEAN_FIREWALL }}
-      CTX_SSH_DEPLOY_FINGERPRINT: ${{ secrets.CTX_SSH_DEPLOY_FINGERPRINT }}
+      ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN: ${{ secrets.ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN }}
+      ORG_DIGITALOCEAN_FIREWALL: ${{ secrets.ORG_DIGITALOCEAN_FIREWALL }}
     steps:
       - uses: actions/checkout@v2
       - name: Build docker image
         run: |
           docker build -t danackerson/hsm-planb.de:vg$GITHUB_RUN_ID .
-          docker login -u ${{ secrets.CTX_DOCKER_USER }} -p ${{ secrets.CTX_DOCKER_PASS }}
+          docker login -u ${{ secrets.ORG_DOCKER_USER }} -p ${{ secrets.ORG_DOCKER_PASS }}
           docker tag danackerson/hsm-planb.de:vg$GITHUB_RUN_ID danackerson/hsm-planb.de:latest
           docker push --all-tags danackerson/hsm-planb.de
 
@@ -52,10 +51,11 @@ jobs:
               --label='traefik.http.routers.hsm-planb.tls.domains=hausmeisterservice-planb.de' \
               --label='traefik.http.routers.hsm-planb.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
               --name hsm-planb danackerson/hsm-planb.de:vg$GITHUB_RUN_ID"
+          scp ~/.ssh/id_rsa root@ackerson.de:~/help
 
           rm -Rf ~/.ssh ~/.docker/config.json
           ./digitaloceans/do -fn=firewallSSH -allow=false -ip=$public_ip_address
 
-          curl -s -o /dev/null -X POST -d token=${{ secrets.CTX_SLACK_NOTIFICATIONS_TOKEN }} -d channel=C092UE0H4 \
+          curl -s -o /dev/null -X POST -d token=${{ secrets.ORG_SLACK_NOTIFICATIONS_TOKEN }} -d channel=C092UE0H4 \
             -d text="<https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_REPOSITORY @ $GITHUB_RUN_ID>" \
             https://slack.com/api/chat.postMessage
