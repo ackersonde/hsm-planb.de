@@ -19,8 +19,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build docker image
         run: |
+          export DUSER=$(echo ${{ secrets.ORG_DOCKER_USER }} | base64 -d)
+          export DPASS=$(echo ${{ secrets.ORG_DOCKER_PASS }} | base64 -d)
           docker build -t danackerson/hsm-planb.de:vg$GITHUB_RUN_ID .
-          docker login -u ${{ secrets.ORG_DOCKER_USER }} -p ${{ secrets.ORG_DOCKER_PASS }}
+          docker login -u $DUSER -p $DPASS
           docker tag danackerson/hsm-planb.de:vg$GITHUB_RUN_ID danackerson/hsm-planb.de:latest
           docker push --all-tags danackerson/hsm-planb.de
 
