@@ -25,7 +25,7 @@ jobs:
           export CTX_DIGITALOCEAN_FIREWALL=$(echo ${{ secrets.ORG_DIGITALOCEAN_FIREWALL }} | base64 -d)
           git clone https://github.com/ackersonde/digitaloceans.git
           cd digitaloceans
-          go get -t -d -v ./...
+          go mod tidy
           go build do.go
           cd ../
 
@@ -33,9 +33,9 @@ jobs:
           ./digitaloceans/do -fn=firewallSSH -allow=true -ip=$public_ip_address -tag=traefik
 
           mkdir ~/.ssh
-          echo ${{ secrets.ORG_DIGITALOCEAN_SSH_PRIVKEY }} | base64 -d | tee ~/.ssh/id_rsa
+          echo "${{ secrets.ORG_DIGITALOCEAN_SSH_PRIVKEY }}" | base64 -d | tee ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
-
+          echo "HERE"
           ssh -o StrictHostKeyChecking=no root@ackerson.de "\
             docker rm -f hsm-planb || true && \
             docker run -d --restart=always \
@@ -46,7 +46,7 @@ jobs:
               --label='traefik.http.routers.hsm-planb.tls.domains=hausmeisterservice-planb.de' \
               --label='traefik.http.routers.hsm-planb.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
               --name hsm-planb danackerson/hsm-planb.de:vg$GITHUB_RUN_ID"
-
+          echo "THERE"
           rm -Rf ~/.ssh ~/.docker/config.json
           ./digitaloceans/do -fn=firewallSSH -allow=false -ip=$public_ip_address
 
