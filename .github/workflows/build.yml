@@ -4,14 +4,10 @@ on:
   push:
     branches: [ master ]
   workflow_dispatch:
-    inputs:
-      ca_pub_fingerprint:
-        description: fingerprint of CA signed user cert
-        required: false
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       - name: Build docker image
