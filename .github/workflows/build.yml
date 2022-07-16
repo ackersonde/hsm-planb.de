@@ -33,9 +33,9 @@ jobs:
           ./digitaloceans/do -fn=firewallSSH -allow=true -ip=$public_ip_address -tag=traefik
 
           mkdir ~/.ssh
-          echo "${{ secrets.ORG_DIGITALOCEAN_SSH_PRIVKEY }}" | base64 -d | tee ~/.ssh/id_rsa
+          echo "${{ secrets.ORG_DIGITALOCEAN_SSH_PRIVKEY }}" | tee ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
-          echo "HERE"
+
           ssh -o StrictHostKeyChecking=no root@ackerson.de "\
             docker rm -f hsm-planb || true && \
             docker run -d --restart=always \
