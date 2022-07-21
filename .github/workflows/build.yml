@@ -42,7 +42,7 @@ jobs:
           EOF
           chmod 400 ~/.ssh/id_rsa
 
-          ssh -o StrictHostKeyChecking=no root@78.46.208.157 "\
+          ssh -o StrictHostKeyChecking=no root@168.119.170.94 "\
             docker rm -f hsm-planb || true && \
             docker run -d --restart=always \
               -e GITHUB_RUN_ID=$GITHUB_RUN_ID \
