@@ -2,7 +2,7 @@ name: Deploy hsm-planb.de website
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, hetzner ]
   workflow_dispatch:
 
 jobs:
@@ -19,21 +19,27 @@ jobs:
           docker tag danackerson/hsm-planb.de:vg$GITHUB_RUN_ID danackerson/hsm-planb.de:latest
           docker push --all-tags danackerson/hsm-planb.de
 
-      - name: Deploy to DO
+      - name: Deploy to Hetzner
         run: |
           export CTX_DIGITALOCEAN_DROPLET_PROXY_TOKEN=$(echo ${{ secrets.ORG_DIGITALOCEAN_DROPLET_PROXY_TOKEN }} | base64 -d)
           export CTX_DIGITALOCEAN_FIREWALL=$(echo ${{ secrets.ORG_DIGITALOCEAN_FIREWALL }} | base64 -d)
-          git clone https://github.com/ackersonde/digitaloceans.git
-          cd digitaloceans
+          export HETZNER_API_TOKEN=$(echo ${{ secrets.ORG_HETZNER_CLOUD_API_TOKEN }} | base64 -d)
+          #export HETZNER_FIREWALL=$(echo ${{ secrets.ORG_HETZNER_HOME_FIREWALL }} | base64 -d)
+          #export HETZNER_VAULT_VOLUME_ID=$(echo ${{ secrets.ORG_HETZNER_VAULT_VOLUME_ID }} | base64 -d)
+
+          git clone https://github.com/ackersonde/hetzner_home.git
+          cd hetzner_home
           go mod tidy
-          go build do.go
+          go build hetzner.go
           cd ../
 
           public_ip_address=$(curl -s https://checkip.amazonaws.com)
-          ./digitaloceans/do -fn=firewallSSH -allow=true -ip=$public_ip_address -tag=traefik
+          ./hetzner_home/hetzner -fn=firewallSSH -tag=homepage -ip=$public_ip_address
 
           mkdir ~/.ssh
-          echo "${{ secrets.ORG_DIGITALOCEAN_SSH_PRIVKEY }}" | tee ~/.ssh/id_rsa
+          cat <<EOF >~/.ssh/id_rsa
+          $(echo ${{ secrets.HETZNER_SSH_PRIVKEY }} | base64 -d)
+          EOF
           chmod 400 ~/.ssh/id_rsa
 
           ssh -o StrictHostKeyChecking=no root@ackerson.de "\
@@ -46,9 +52,9 @@ jobs:
               --label='traefik.http.routers.hsm-planb.tls.domains=hausmeisterservice-planb.de' \
               --label='traefik.http.routers.hsm-planb.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
               --name hsm-planb danackerson/hsm-planb.de:vg$GITHUB_RUN_ID"
-          echo "THERE"
+
           rm -Rf ~/.ssh ~/.docker/config.json
-          ./digitaloceans/do -fn=firewallSSH -allow=false -ip=$public_ip_address
+          ./hetzner_home/hetzner -fn=cleanupDeploy -tag=homepage
 
           export SLACK_NOTIFY_TOKEN=$(echo ${{ secrets.ORG_SLACK_NOTIFICATIONS_TOKEN }} | base64 -d)
           curl -s -o /dev/null -X POST -d token=$SLACK_NOTIFY_TOKEN -d channel=C092UE0H4 \
