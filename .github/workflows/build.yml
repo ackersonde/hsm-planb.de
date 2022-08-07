@@ -48,7 +48,6 @@ jobs:
               -e GITHUB_RUN_ID=$GITHUB_RUN_ID \
               --label='traefik.enable=true' \
               --label='traefik.http.routers.hsm-planb.middlewares=http-ratelimit@file,secHeaders@file' \
-              --label='traefik.http.routers.hsm-planb.tls.certResolver=letsencrypt' \
               --label='traefik.http.routers.hsm-planb.tls.domains=hausmeisterservice-planb.de' \
               --label='traefik.http.routers.hsm-planb.rule=Host(\`hausmeisterservice-planb.de\`) || Host(\`www.hausmeisterservice-planb.de\`)' \
               --name hsm-planb danackerson/hsm-planb.de:vg$GITHUB_RUN_ID"
